@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Za Jelenu</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            color: #424242;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #e91e63;
+        }
+
+        .love-counter {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .counter-item {
+            display: inline-block;
+            margin: 0 2rem;
+            text-align: center;
+        }
+
+        .counter-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #e91e63;
+        }
+
+        .counter-label {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 1rem;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #424242;
+        }
+
+        .tab-btn.active {
+            background: #e91e63;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .memory-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .memory-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .memory-card h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #e91e63;
+            margin-bottom: 0.5rem;
+        }
+
+        .memory-card p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .promise-section {
+        max-width: 400px; /* Restrict the width of the container */
+        margin: 0 auto; /* Center the div horizontally */
+        padding: 15px; /* Add padding for spacing */
+        border: 1px solid #ccc; /* Optional: Add a border for better visibility */
+        border-radius: 8px; /* Rounded corners */
+        background-color: #f9f9f9; /* Optional: Light background for readability */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Subtle shadow effect */
+    }
+
+        .promise-section h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #e91e63;
+            margin-bottom: 1rem;
+        }
+
+        .promise-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            background: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin-top: 2rem;
+        }
+
+        .promise-btn:hover {
+            background: #c2185b;
+            transform: scale(1.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            z-index: 100;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #e91e63;
+        }
+
+        .gallery-section {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .gallery-text {
+        flex: 1;
+    }
+
+    .gallery-images {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+
+    .gallery-images img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-images img:hover {
+        transform: scale(1.05);
+    }
+
+    .gallery-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .gallery-content {
+        position: relative;
+        max-width: 90%;
+        max-height: 90vh;
+    }
+
+    .gallery-image {
+        max-width: 100%;
+        max-height: 85vh;
+        object-fit: contain;
+    }
+
+    .gallery-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.8);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: #e91e63;
+        transition: background 0.3s ease;
+    }
+
+    .gallery-nav:hover {
+        background: white;
+    }
+
+    .gallery-prev {
+        left: -50px;
+    }
+
+    .gallery-next {
+        right: -50px;
+    }
+
+    .gallery-close {
+        position: absolute;
+        top: -40px;
+        right: 0;
+        background: rgba(255, 255, 255, 0.8);
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        color: #e91e63;
+    }
+
+    @media (max-width: 768px) {
+        .gallery-section {
+            flex-direction: column;
+        }
+    }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .tabs { flex-direction: column; }
+            .counter-item { margin: 1rem; }
+            h1 { font-size: 2.5rem; }
+            .tab-btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Moje obecanje za moju Jexy ❤️</h1>
+            <p>Hvala ti za svaki dan koji provodis sa mnom :3, najbolja si </p>
+        </header>
+
+        <div class="love-counter">
+            <div class="counter-item">
+                <div class="counter-number" id="years">0</div>
+                <div class="counter-label">Godina</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-number" id="months">0</div>
+                <div class="counter-label">Meseca</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-number" id="days">0</div>
+                <div class="counter-label">Dana</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab('memories')">Nasa secanja</button>
+            <button class="tab-btn" onclick="openTab('things-you-love')">Stvari koje volis</button>
+        </div>
+
+        <div id="memories" class="tab-content active">
+            <div class="gallery-section">
+                <div class="gallery-text">
+                    <h3>Nas prvi izlazak</h3>
+                    <p>Dana kada sam saznao da si ti ta, kad sam otisao u Kikindu skroz iz Beograda uzeo buket cveca, video te samo kako sedis tamo kod trga srpskih dobrovoljaca i samo kako sam te ugledao oci su mi ispale, prisla si mi i poljubili smo se. Taj dan smo sedeli ispred STAN VUKMANOVIC STO DRZI ONA LUDACA, sedeli smo ispred i yappovali satima i stvarno ne mogu razmislim lepsi prvi dejt nego taj sa tobom.</p>
+                </div>
+                <div class="gallery-images" data-gallery="first-date">
+                    <img src="JELENA1.jpg" alt="Our First Date" onclick="openGallery('first-date', 0)">
+                    <img src="jelena2.jpg" alt="Our First Date 2" onclick="openGallery('first-date', 1)">
+                    <img src="jelena3.jpg" alt="Our First Date 2" onclick="openGallery('first-date', 2)">
+                    <img src="jelena4.jpg" alt="Our First Date 2" onclick="openGallery('first-date', 3)">
+                    <img src="jelena5.jpg" alt="Our First Date 2" onclick="openGallery('first-date', 4)">
+                    <img src="jelena6.jpg" alt="Our First Date 2" onclick="openGallery('first-date', 5)">
+                    <!-- Dodaj više slika po potrebi -->
+                </div>
+            </div>
+            <div id="memories" class="tab-content active">
+                <div class="gallery-section">
+                    <div class="gallery-text">
+                        <h3>Zoo vrt</h3>
+                        <p>Nakon naseg prvog izlaska uveliko sam isplanirao da te volim u zoloski vrt da bih mogao opety da probuidm dete u tebi, sto sam i uspeo, bili smo jako uzivali, gledali majmune i razne zivotinje, jeli smo kokice smeskali se i uzivali zajedno kao par, nakon toga smo otisli u nas coffeedream gde smo ogovarali ljude i smeskali se i ogovoarali druge ljude. </p>
+                    </div>
+                    <div class="gallery-images" data-gallery="first-date">
+                        <img src="jelena7.jpg" alt="Our First Date" onclick="openGallery('first-date', 0)">
+                        <img src="jelena8.jpg" alt="Our First Date 2" onclick="openGallery('first-date', 1)">
+                        <img src="jelena9.jpg" alt="Our First Date 2" onclick="openGallery('first-date', 2)">
+                        <img src="jelena10.jpg" alt="Our First Date 2" onclick="openGallery('first-date', 3)">
+                        <img src="jelena11.jpg" alt="Our First Date 2" onclick="openGallery('first-date', 4)">
+                        <!-- Dodaj više slika po potrebi -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="memories" class="tab-content active">
+            <div class="gallery-section">
+                <div class="gallery-text">
+                    <h3>Kad smo kuvali jedno drugome</h3>
+                    <p>I tako Jelena i ja sedimo u stanu, pravimo palacinke pijemo bocu najgoreg vina, jer sam prosli put uzeo malo preskupoceno ali DOBROOOO, i onda tako ja ona sedimo pricamo smejemo se i tako maurni ustajemo ujutru i ja joj pravim kajganu sa sunkom LOGICNO PIPI NE GUDI.</p>
+                </div>
+                <div class="gallery-images" data-gallery="first-date">
+                    <img src="jelena12.jpg" alt="Our First Date" onclick="openGallery('first-date', 0)">
+                    <img src="jelena13.jpg" alt="Our First Date 2" onclick="openGallery('first-date', 1)">
+                    <!-- Dodaj više slika po potrebi -->
+                </div>
+            </div>
+</div>
+        <div id="things-you-love" class="tab-content">
+            <div class="gallery">
+                <div class="memory-card">
+                    <img src="jelena7.jpg" alt="Your Favorite Things">
+                    <h3>Mene logicno</h3>
+                    <p>Ja sam ipak tvoj smesan muz, koji se uvek trudi da te sve vise i vise nasmeje i dokaze ti da nista u ovom zivotu nije strasno, trudicu se iz dana u dan samo da bih u tebi probudio najlepsa osecanja i da uvek mozes znati da si moja samo moja.</p>
+
+                    
+                </div>
+                <div class="memory-card">
+                    <img src="https://pxbaz.com//wp-content/uploads/2023/09/wallpaper-kuromi-583x1024.jpg" alt="Your Favorite Things">
+                    <h3>Kuromi :3</h3>
+                    <p>Mala smesna hello kitty crna lutkica koja bi zaklala sve, bukvalno moja zena. </p>
+                </div>
+            </div>
+        </div>
+                <!-- Add more feeling cards -->
+            </div>
+        </div>
+
+        <div id="our-future" class="tab-content">
+            <div class="gallery">
+                <div class="memory-card">
+                    <img src="/api/placeholder/400/300" alt="Our Future">
+                    <h3>Our Dream Home</h3>
+                    <p>I dream of building a life with you, filled with love, laughter, and all the little moments that make life beautiful.</p>
+                </div>
+                <!-- Add more future cards -->
+            </div>
+        </div>
+
+        <div class="promise-section">
+            <h2>Moje obecanje za tebe</h2>
+            <p>Znam da nije promise ring ali dobices ga cim resim malo finansije, znam da to zelis i ja zelim isto to da ti dam, ti si nesto najbolje sto se jednom streberu Jovanu moglo desi i kao umesto promise ringa evo ti jedno jako smesno dugme kada budes kliknula prihvatas moje obecanje da cu te zaprositi kad dodje vreme i stvoriti buducnost sa tobom</p>
+            <button class="promise-btn" onclick="showModal()">Da li prihvatas moje obecanje ? 💍</button>
+        </div>
+    </div>
+
+    <div class="modal" id="acceptanceModal" onclick="hideModal(event)">
+        <div class="modal-content">
+            <h2>CESTITKE! 🎉</h2>
+            <p>Sada smo obecani da cemo se vencati jedno za drugog!</p>
+            <p>Volim te najvise na celome svetu mika ❤️</p>
+        </div>
+    </div>
+    <script>
+        function updateCounter() {
+            const startDate = new Date('2024-10-26');
+            const currentDate = new Date();
+            
+            const diffTime = Math.abs(currentDate - startDate);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            const years = Math.floor(diffDays / 365);
+            const months = Math.floor((diffDays % 365) / 30);
+            const days = Math.floor(diffDays % 30);
+            
+            document.getElementById('years').textContent = years;
+            document.getElementById('months').textContent = months;
+            document.getElementById('days').textContent = days;
+        }
+
+        function openTab(tabName) {
+            const tabContents = document.getElementsByClassName('tab-content');
+            const tabButtons = document.getElementsByClassName('tab-btn');
+            
+            for (let content of tabContents) {
+                content.classList.remove('active');
+            }
+            
+            for (let button of tabButtons) {
+                button.classList.remove('active');
+            }
+            
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function showModal() {
+            document.getElementById('acceptanceModal').style.display = 'flex';
+        }
+
+        function hideModal(event) {
+            if (event.target === document.getElementById('acceptanceModal')) {
+                document.getElementById('acceptanceModal').style.display = 'none';
+            }
+        }
+
+        function toggleMusic() {
+            const music = document.getElementById('backgroundMusic');
+            if (music.paused) {
+                music.play();
+            } else {
+                music.pause();
+            }
+        }
+
+
+        const galleries = {
+            'first-date': [
+                'JELENA1.jpg',
+                'jelena2.jpg'
+                // Dodaj više slika po potrebi
+            ],
+            'moments': [
+                '/api/placeholder/400/300'
+                // Dodaj više slika po potrebi
+            ]
+            // Dodaj više galerija po potrebi
+        };
+
+        let currentGallery = '';
+        let currentImageIndex = 0;
+
+        function openGallery(galleryId, imageIndex) {
+            currentGallery = galleryId;
+            currentImageIndex = imageIndex;
+            const modal = document.getElementById('galleryModal');
+            updateGalleryImage();
+            modal.style.display = 'flex';
+        }
+
+        function closeGallery() {
+            document.getElementById('galleryModal').style.display = 'none';
+        }
+
+        function updateGalleryImage() {
+            const galleryImage = document.getElementById('galleryImage');
+            galleryImage.src = galleries[currentGallery][currentImageIndex];
+        }
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            const galleryImages = galleries[currentGallery];
+            
+            if (currentImageIndex >= galleryImages.length) {
+                currentImageIndex = 0;
+            } else if (currentImageIndex < 0) {
+                currentImageIndex = galleryImages.length - 1;
+            }
+            
+            updateGalleryImage();
+        }
+
+        // Event listeneri za tastaturu
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeGallery();
+            } else if (e.key === 'ArrowRight') {
+                changeImage(1);
+            } else if (e.key === 'ArrowLeft') {
+                changeImage(-1);
+            }
+        });
+
+        // Initialize counter and update it every day
+        updateCounter();
+        setInterval(updateCounter, 1000 * 60 * 60 * 24);
+    </script>
+</body>
+</html>
